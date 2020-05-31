@@ -24,10 +24,11 @@ function RenderCard({item, isLoading, errMess}) {
                 {item.designation ? <CardSubtitle>{item.designation}</CardSubtitle> : null }
                 <CardText>{item.description}</CardText>
                 </CardBody>
-            </Card>
+            </Card> 
         );
 
 }
+
 
 function Home(props) {
     return (
@@ -37,10 +38,8 @@ function Home(props) {
                 <RenderCard item={props.dish} isLoading={props.dishesLoading} errMess={props.dishesErrMess}  />
                 </div>
                 <div className="col-12 col-md m-1">
-                <RenderCard item={props.promotion}
-                isLoading={props.promoLoading}
-                errMess={props.promoErrMess} />
-            </div>
+                <RenderCard item={props.promotion} isLoading={props.promoLoading} errMess={props.promoErrMess} />              
+                  </div>
                 <div className="col-12 col-md m-1">
                     <RenderCard item={props.leader} />
                 </div>
@@ -50,3 +49,5 @@ function Home(props) {
 }
 
 export default Home;
+
+
