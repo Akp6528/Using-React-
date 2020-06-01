@@ -1,31 +1,63 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
-function RenderLeader({leader}) {
-    return(
-        <div key={leader.id} className="col-12 mt-5">
-            <Media tag="li">
-                <Media left middle>
-                    <Media object src={leader.image} alt={leader.name} />
-                </Media>
-                <Media body className="col-12">
-                    <Media heading>{leader.name}</Media>
-                    <p>{leader.designation}</p>
-                    <p>{leader.description}</p>
-                </Media>    
-            </Media>
-        </div>
+
+function RenderLeader(props) {
+    return (
+        <Stagger in>
+        <Media>
+        <Media left middle href="#">
+          <Media
+            object
+            src={baseUrl + props.leader.image}
+            alt={props.leader.name}
+          />
+        </Media>
+        <Media body className="pl-5">
+          <Media heading>{props.leader.name}</Media>
+          <p>{props.leader.designation}</p>
+          <p>{props.leader.description}</p>
+        </Media>
+      </Media>
+      </Stagger>
     );
-}
+  }
+
 function About(props) {
 
-    const leaders = props.leaders.map((leader) => {
+    let leaders = "";
+    if (props.leaders.isLoading) {
+      leaders = (
+        <div className="container">
+          <div className="row">
+            <Loading />
+          </div>
+        </div>
+      );
+    } else if (props.leaders.errMess) {
+      leaders = (
+        <div className="container">
+          <div className="row">
+            <h4>{props.errMess}</h4>
+          </div>
+        </div>
+      );
+    } else if (props.leaders.leaders) {
+      leaders = props.leaders.leaders.map((leader, i) => {
         return (
-            <RenderLeader leader={leader} />
+            <Fade in>
+            <li className="list-unstyled">
+              <RenderLeader key={i} leader={leader}></RenderLeader>
+            </li>
+            </Fade>
         );
-    });
-
+      });
+    }
+  
     return(
         <div className="container">
             <div className="row">
